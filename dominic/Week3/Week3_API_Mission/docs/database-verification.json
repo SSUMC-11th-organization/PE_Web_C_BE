@@ -1,0 +1,77 @@
+{
+  "verifiedAt": "2026-10-01 23:27:22 +09:00",
+  "database": "umc_sql_week2",
+  "before": {
+    "book_count": 3,
+    "rental_count": 2
+  },
+  "after": {
+    "book_count": 4,
+    "rental_count": 3
+  },
+  "createdBook": {
+    "book_id": 4,
+    "category_id": 1,
+    "title": "클린 코드",
+    "description": "애자일 소프트웨어 장인 정신",
+    "is_available": 1
+  },
+  "completedRental": {
+    "rental_id": 3,
+    "user_id": 1,
+    "book_id": 4,
+    "rented_at": "2026-10-01 23:22:34",
+    "due_at": "2026-10-08 23:22:34",
+    "returned_at": "2026-10-01 23:24:07",
+    "rental_period_seconds": 604800,
+    "book_available_after_return": 1
+  },
+  "client": "Postman Lightweight API Client 12.29.5",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/books/category/1",
+      "status": 200,
+      "screenshot": "01-category-get-200.jpg"
+    },
+    {
+      "method": "GET",
+      "path": "/books",
+      "status": 200,
+      "screenshot": "04-books-get-200.jpg"
+    },
+    {
+      "method": "POST",
+      "path": "/books",
+      "body": {
+        "categoryId": 1,
+        "title": "클린 코드",
+        "description": "애자일 소프트웨어 장인 정신"
+      },
+      "status": 201,
+      "screenshot": "05-books-post-201.jpg"
+    },
+    {
+      "method": "POST",
+      "path": "/rentals",
+      "body": {
+        "userId": 1,
+        "bookId": 4
+      },
+      "status": 201,
+      "screenshot": "02-rentals-post-201.jpg"
+    },
+    {
+      "method": "PATCH",
+      "path": "/rentals/3/return",
+      "status": 200,
+      "screenshot": "03-rentals-return-200.jpg"
+    },
+    {
+      "method": "GET",
+      "path": "/books",
+      "status": 200,
+      "screenshot": "06-books-get-after-create-200.jpg"
+    }
+  ]
+}

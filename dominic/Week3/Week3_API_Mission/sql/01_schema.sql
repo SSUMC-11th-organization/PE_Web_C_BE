@@ -1,0 +1,58 @@
+-- 2주차 도서 대여 ERD를 재현합니다. 기존 테이블을 삭제하지 않습니다.
+CREATE TABLE IF NOT EXISTS users (
+  user_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  nickname VARCHAR(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS category (
+  category_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS book (
+  book_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  category_id BIGINT NOT NULL,
+  title VARCHAR(100) NOT NULL,
+  description TEXT,
+  is_available BOOLEAN NOT NULL DEFAULT TRUE,
+  FOREIGN KEY (category_id) REFERENCES category(category_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS rental (
+  rental_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  book_id BIGINT NOT NULL,
+  rented_at DATETIME NOT NULL,
+  due_at DATETIME NOT NULL,
+  returned_at DATETIME NULL,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (book_id) REFERENCES book(book_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS tag (
+  tag_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS book_tag (
+  book_id BIGINT NOT NULL,
+  tag_id BIGINT NOT NULL,
+  PRIMARY KEY (book_id, tag_id),
+  FOREIGN KEY (book_id) REFERENCES book(book_id),
+  FOREIGN KEY (tag_id) REFERENCES tag(tag_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS book_like (
+  user_id BIGINT NOT NULL,
+  book_id BIGINT NOT NULL,
+  PRIMARY KEY (user_id, book_id),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (book_id) REFERENCES book(book_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS notification (
+  notification_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  user_id BIGINT NOT NULL,
+  type VARCHAR(30) NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(user_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

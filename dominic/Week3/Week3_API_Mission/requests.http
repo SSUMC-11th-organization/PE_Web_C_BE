@@ -1,0 +1,38 @@
+@baseUrl = http://127.0.0.1:3000
+@categoryId = 1
+@userId = 1
+@bookId = 4
+# POST 응답 객체의 실제 rental_id를 아래에 입력하세요.
+# 기존 3번 대여는 이미 반납됐으므로 새 POST 응답의 ID로 변경하세요.
+@rentalId = 3
+
+### DB 연결 상태
+GET {{baseUrl}}/health
+
+### 기본 실습: 전체 도서 목록
+GET {{baseUrl}}/books
+
+### 기본 실습: 도서 등록 - 반복 실행하면 새 책이 계속 생성됩니다.
+POST {{baseUrl}}/books
+Content-Type: application/json
+
+{
+  "categoryId": {{categoryId}},
+  "title": "클린 코드",
+  "description": "애자일 소프트웨어 장인 정신"
+}
+
+### 필수 1: 특정 카테고리의 모든 책 조회
+GET {{baseUrl}}/books/category/{{categoryId}}
+
+### 필수 2: 신규 도서 대여 — 실제 DB에 기록이 생성됩니다.
+POST {{baseUrl}}/rentals
+Content-Type: application/json
+
+{
+  "userId": {{userId}},
+  "bookId": {{bookId}}
+}
+
+### 선택: 위 POST의 rentalId로 반납 — 실제 DB의 반납 시각이 변경됩니다.
+PATCH {{baseUrl}}/rentals/{{rentalId}}/return
