@@ -1,5 +1,7 @@
 # 4주차 — ORM으로 생산성 높이고 첫 API 완성하기
 
+[백엔드 PR #7](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/pull/7) · [관련 이슈 #6](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/issues/6)
+
 Node.js의 **NestJS + TypeORM + MySQL**을 사용해 도서 조회·등록 API를 구현했다. Controller → Service → Repository 구조를 유지하며, 도서 CRUD는 직접 작성한 SQL 대신 TypeORM Repository로 처리한다.
 
 ## 구현 범위
@@ -127,6 +129,7 @@ npm run start:dev
 | 없는 카테고리 | [404 Not Found](docs/evidence/04-post-missing-category-404.jpg) |
 | 제목 검색 | [200 OK](docs/evidence/05-get-keyword-200.jpg) |
 | 빈 검색어 | [400 Bad Request](docs/evidence/06-get-empty-keyword-400.jpg) |
+| 등록 후 전체 조회 | [200 OK](docs/evidence/07-get-books-after-create-200.jpg) |
 
 ## 제출용 기록
 

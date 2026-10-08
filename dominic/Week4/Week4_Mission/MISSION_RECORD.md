@@ -1,5 +1,7 @@
 # 4주차 미션 기록 — ORM으로 생산성 높이고 첫 API 완성하기
 
+제출 코드: [백엔드 PR #7](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/pull/7) · [관련 이슈 #6](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/issues/6).
+
 ## 1. 목표와 구현 범위
 
 3주차의 Raw SQL 도서 API를 Node.js의 NestJS와 TypeORM으로 리팩터링했다. 기존 MySQL `book`, `category` 테이블과 데이터를 사용하고, 3주차 원본은 별도 프로젝트와 [3주차 PR #2](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/pull/2)에 보존했다.
@@ -26,13 +28,13 @@
 
 | 구성 | 역할 | 코드 |
 | --- | --- | --- |
-| Entity | 기존 book/category 테이블·컬럼과 다대일 관계 매핑 | [Book](src/books/book.entity.ts), [Category](src/categories/category.entity.ts) |
-| 요청 DTO | categoryId·title·description과 검색어 검증 | [CreateBookDto](src/books/dto/create-book.dto.ts), [FindBooksQueryDto](src/books/dto/find-books-query.dto.ts) |
-| 응답 DTO | bookId, title, description, categoryName, isAvailable만 반환 | [BookResponseDto](src/books/dto/book-response.dto.ts) |
-| Repository | ORM을 통한 관계 조회·정렬·검색·등록 | [BookRepository](src/books/book.repository.ts), [CategoryRepository](src/categories/category.repository.ts) |
-| Service | 카테고리 존재 확인과 응답 DTO 변환 | [BooksService](src/books/books.service.ts) |
-| Controller | GET/POST 경로와 DTO를 연결하고 POST 201 지정 | [BooksController](src/books/books.controller.ts) |
-| 설정 | 환경변수 DB 연결, forFeature, 글로벌 ValidationPipe | [AppModule](src/app.module.ts), [BooksModule](src/books/books.module.ts), [main](src/main.ts) |
+| Entity | 기존 book/category 테이블·컬럼과 다대일 관계 매핑 | [Book](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/book.entity.ts), [Category](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/categories/category.entity.ts) |
+| 요청 DTO | categoryId·title·description과 검색어 검증 | [CreateBookDto](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/dto/create-book.dto.ts), [FindBooksQueryDto](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/dto/find-books-query.dto.ts) |
+| 응답 DTO | bookId, title, description, categoryName, isAvailable만 반환 | [BookResponseDto](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/dto/book-response.dto.ts) |
+| Repository | ORM을 통한 관계 조회·정렬·검색·등록 | [BookRepository](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/book.repository.ts), [CategoryRepository](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/categories/category.repository.ts) |
+| Service | 카테고리 존재 확인과 응답 DTO 변환 | [BooksService](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/books.service.ts) |
+| Controller | GET/POST 경로와 DTO를 연결하고 POST 201 지정 | [BooksController](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/books.controller.ts) |
+| 설정 | 환경변수 DB 연결, forFeature, 글로벌 ValidationPipe | [AppModule](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/app.module.ts), [BooksModule](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/books/books.module.ts), [main](https://github.com/SSUMC-11th-organization/PE_Web_C_BE/blob/aa92d6b76a3bd8b411acba09085c547b2450215f/dominic/Week4/Week4_Mission/src/main.ts) |
 
 ### Entity 관계
 
@@ -124,3 +126,4 @@ ORM이 SQL 작성을 줄여 주더라도 기존 스키마의 타입, SQL 실행 
 - 핵심 키워드 정리: [KEYWORDS.md](docs/KEYWORDS.md).
 - 재사용 요청: [requests.http](requests.http), [Postman Collection](docs/week4.postman_collection.json).
 - 개인 Notion의 미션 기록에 본문을 복사하고 캡처를 첨부한 뒤, 과제 제출 사이트에 개인 Notion 페이지 URL을 제출한다.
+- GitHub 코드 링크는 그대로 사용할 수 있다. 문서의 이미지는 `docs/evidence/`의 JPG 7개를 Notion에 함께 첨부한다.
