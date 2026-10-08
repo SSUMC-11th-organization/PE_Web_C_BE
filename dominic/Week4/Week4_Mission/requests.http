@@ -1,0 +1,45 @@
+@baseUrl = http://127.0.0.1:3001
+
+### 1. 전체 도서 조회 — 200, bookId DESC
+GET {{baseUrl}}/books
+Accept: application/json
+
+### 2. 신규 도서 등록 — 201
+# 실행할 때마다 새 도서가 추가되며 새 bookId가 생성됩니다.
+POST {{baseUrl}}/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "categoryId": 2,
+  "title": "스프링과 NestJS로 배우는 ORM",
+  "description": "4주차 TypeORM 등록 및 검색 실습"
+}
+
+### 3. 공백뿐인 제목 — 400
+POST {{baseUrl}}/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "categoryId": 2,
+  "title": "   "
+}
+
+### 4. 존재하지 않는 카테고리 — 404
+POST {{baseUrl}}/books
+Content-Type: application/json
+Accept: application/json
+
+{
+  "categoryId": 999999,
+  "title": "없는 카테고리 테스트"
+}
+
+### 5. 제목 부분 검색 — 200
+GET {{baseUrl}}/books?keyword=스프링
+Accept: application/json
+
+### 6. 빈 검색어 — 400
+GET {{baseUrl}}/books?keyword=
+Accept: application/json
