@@ -12,7 +12,7 @@ async function bootstrap() {
   // 실습 0에서는 이 블록을 주석 처리하고 CORS 에러를 먼저 확인합니다.
   app.enableCors({
     origin: 'http://localhost:5173',
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
   });
 
   app.useGlobalPipes(
@@ -27,6 +27,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('UMC 영화 평점 서비스 API')
     .setVersion('1.0')
+    .addBearerAuth() // Swagger 우측 상단 Authorize 버튼에 토큰을 넣을 수 있게 합니다
     .build();
   SwaggerModule.setup('api', app, SwaggerModule.createDocument(app, config));
 
