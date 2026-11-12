@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.MemberUpdateRequest;
 import com.example.demo.dto.EmailCheckResponse;
 import com.example.demo.dto.NicknameCheckResponse;
 import com.example.demo.repository.MemberRepository;
@@ -10,6 +11,9 @@ import com.example.demo.dto.MemberResponse;
 import com.example.demo.dto.SignUpRequest;
 import com.example.demo.entity.Member;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.example.demo.dto.MemberInfoResponse;
+import com.example.demo.exception.ApiException;
+import org.springframework.http.HttpStatus;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +54,32 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
         return new MemberResponse(savedMember.getMemberId(), savedMember.getEmail(), savedMember.getNickname());
+    }
+    // src/main/java/com/umc/movie/service/MemberService.java 에 아래 메서드를 추가합니다
+    public MemberInfoResponse getMyInfo(Long memberId) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."));
+
+        return MemberInfoResponse.from(member);
+    }
+
+    // src/main/java/com/umc/movie/service/MemberService.java 에 아래 메서드를 추가합니다
+    public MemberInfoResponse updateMyInfo(Long memberId, MemberUpdateRequest request) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "MEMBER404_1",
+                        "해당 회원을 찾을 수 없습니다."));
+
+        // 나를 제외한 다른 회원이 그 닉네임을 쓰고 있다면 막습니다.
+        // DB에도 UNIQUE 제약이 걸려 있지만 제약 위반 예외 대신 우리가 정한 응답을 주기 위해 먼저 확인합니다.
+        if (memberRepository.existsByNicknameAndMemberIdNot(request.nickname(), memberId)) {
+            throw new ApiException(HttpStatus.CONFLICT, "MEMBER409_1",
+                    "이미 사용 중인 닉네임입니다.");
+        }
+
+        member.updateNickname(request.nickname());
+        memberRepository.save(member);
+
+        return MemberInfoResponse.from(member);
     }
 }
