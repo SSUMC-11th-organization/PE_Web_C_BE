@@ -1,0 +1,42 @@
+
+> umc-week8-movie-api@1.0.0 test
+> npm run build && node --env-file-if-exists=.env --test test/*.test.cjs
+
+
+> umc-week8-movie-api@1.0.0 build
+> nest build
+
+✔ security settings reject missing secret or invalid expiry (0.445334ms)
+▶ complete two-member authentication scenario
+  ✔ 1. register A and B without passwords in responses (255.937583ms)
+  ✔ 2. login and verify signed JWT claims (365.436292ms)
+  ✔ profile view and own/someone else nickname update (8.579916ms)
+  ✔ 3. rating creation uses token; supplied memberId rejected (4.8655ms)
+  ✔ 4. duplicate rating (0.844166ms)
+  ✔ 5. owner update persists (4.638458ms)
+  ✔ 6. another user cannot update or delete (2.736333ms)
+  ✔ 7. absent, tampered, unsigned, wrong algorithm and expired tokens (3.693833ms)
+  ✔ 8. missing rating (0.73075ms)
+  ✔ 9. owner delete and public empty list (2.444459ms)
+  ✔ database values, hashed password, and CORS authorization preflight (5.6565ms)
+✔ complete two-member authentication scenario (656.377ms)
+▶ week8 favorites, transactions and Swagger against MySQL
+  ✔ all five routes require authentication (112.057666ms)
+  ✔ empty list and absent status are normal; invalid input and memberId rejected (7.315416ms)
+  ✔ create, duplicate, newest-first list and another member are isolated (9.034208ms)
+  ✔ delete returns 200 and null; deleting again returns 404 (2.708166ms)
+  ✔ movie record commits rating and favorite together; repeated request adds neither (7.621875ms)
+  ✔ existing favorite conflicts only when adding; false saves rating with favorite null (7.640958ms)
+  ✔ strict movie record validation (2.391542ms)
+  ✔ real second INSERT failure rolls back the first INSERT (39.920125ms)
+  ✔ concurrent requests and database UNIQUE preserve a single favorite (9.927541ms)
+  ✔ Swagger documents five protected routes, public login and response examples (1.329917ms)
+✔ week8 favorites, transactions and Swagger against MySQL (688.33525ms)
+ℹ tests 24
+ℹ suites 0
+ℹ pass 24
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 900.745958
