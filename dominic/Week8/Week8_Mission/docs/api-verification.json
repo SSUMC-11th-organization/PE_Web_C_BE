@@ -1,0 +1,933 @@
+{
+  "generatedAt": "2026-11-19T15:40:47.257Z",
+  "database": "umc_movie_week8",
+  "evidence": [
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550
+      },
+      "authenticated": false,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_2",
+        "message": "로그인이 필요한 요청입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550
+      },
+      "authenticated": true,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_3",
+        "message": "유효하지 않은 토큰입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites",
+      "request": null,
+      "authenticated": false,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_2",
+        "message": "로그인이 필요한 요청입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites",
+      "request": null,
+      "authenticated": true,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_3",
+        "message": "유효하지 않은 토큰입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": false,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_2",
+        "message": "로그인이 필요한 요청입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_3",
+        "message": "유효하지 않은 토큰입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": false,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_2",
+        "message": "로그인이 필요한 요청입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_3",
+        "message": "유효하지 않은 토큰입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 238,
+        "score": 5,
+        "addToFavorites": true
+      },
+      "authenticated": false,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_2",
+        "message": "로그인이 필요한 요청입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 238,
+        "score": 5,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 401,
+      "body": {
+        "isSuccess": false,
+        "code": "AUTH401_3",
+        "message": "유효하지 않은 토큰입니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 목록을 조회했습니다.",
+        "result": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 여부를 조회했습니다.",
+        "result": {
+          "isFavorite": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 0
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be less than 1",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": -1
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be less than 1",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 1.5
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must be an integer number",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": "550"
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be greater than 9007199254740991",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 9007199254740992
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be greater than 9007199254740991",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/0",
+      "request": null,
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be less than 1",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/-1",
+      "request": null,
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be less than 1",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/abc",
+      "request": null,
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be greater than 9007199254740991",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/1.2",
+      "request": null,
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must be an integer number",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/9007199254740992",
+      "request": null,
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "movieId must not be greater than 9007199254740991",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550,
+        "memberId": 15
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "property memberId should not exist",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "즐겨찾기를 등록했습니다.",
+        "result": {
+          "favoriteId": 15,
+          "movieId": 550,
+          "createdAt": "2026-11-19T15:40:47.000Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 680
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "즐겨찾기를 등록했습니다.",
+        "result": {
+          "favoriteId": 16,
+          "movieId": 680,
+          "createdAt": "2026-11-19T15:40:47.000Z"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites?memberId=15",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 목록을 조회했습니다.",
+        "result": [
+          {
+            "favoriteId": 16,
+            "movieId": 680,
+            "createdAt": "2026-11-19T15:40:47.000Z"
+          },
+          {
+            "favoriteId": 15,
+            "movieId": 550,
+            "createdAt": "2026-11-19T15:40:47.000Z"
+          }
+        ]
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 목록을 조회했습니다.",
+        "result": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 여부를 조회했습니다.",
+        "result": {
+          "isFavorite": true
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 404,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE404_1",
+        "message": "해당 즐겨찾기를 찾을 수 없습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 550
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "즐겨찾기를 등록했습니다.",
+        "result": {
+          "favoriteId": 17,
+          "movieId": 550,
+          "createdAt": "2026-11-19T15:40:47.000Z"
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기를 해제했습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 여부를 조회했습니다.",
+        "result": {
+          "isFavorite": false
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 200,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON200",
+        "message": "즐겨찾기 여부를 조회했습니다.",
+        "result": {
+          "isFavorite": true
+        }
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/favorites/550",
+      "request": null,
+      "authenticated": true,
+      "status": 404,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE404_1",
+        "message": "해당 즐겨찾기를 찾을 수 없습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 238,
+        "score": 5,
+        "comment": "다시 보고 싶은 영화입니다.",
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "영화 기록을 저장했습니다.",
+        "result": {
+          "rating": {
+            "ratingId": 15,
+            "movieId": 238,
+            "score": 5,
+            "comment": "다시 보고 싶은 영화입니다.",
+            "createdAt": "2026-11-19T15:40:47.000Z",
+            "updatedAt": "2026-11-19T15:40:47.000Z"
+          },
+          "favorite": {
+            "favoriteId": 18,
+            "movieId": 238,
+            "createdAt": "2026-11-19T15:40:47.000Z"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 238,
+        "score": 5,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "RATING409_1",
+        "message": "이미 이 영화에 평점을 남기셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 876
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "즐겨찾기를 등록했습니다.",
+        "result": {
+          "favoriteId": 19,
+          "movieId": 876,
+          "createdAt": "2026-11-19T15:40:47.000Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 876,
+        "score": 4,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 876,
+        "score": 4,
+        "addToFavorites": false
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "영화 기록을 저장했습니다.",
+        "result": {
+          "rating": {
+            "ratingId": 16,
+            "movieId": 876,
+            "score": 4,
+            "comment": null,
+            "createdAt": "2026-11-19T15:40:47.000Z",
+            "updatedAt": "2026-11-19T15:40:47.000Z"
+          },
+          "favorite": null
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 877,
+        "score": 4,
+        "addToFavorites": false
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "영화 기록을 저장했습니다.",
+        "result": {
+          "rating": {
+            "ratingId": 17,
+            "movieId": 877,
+            "score": 4,
+            "comment": null,
+            "createdAt": "2026-11-19T15:40:47.000Z",
+            "updatedAt": "2026-11-19T15:40:47.000Z"
+          },
+          "favorite": null
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 999,
+        "score": 5
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "addToFavorites must be a boolean value",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 999,
+        "score": 0,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "score must not be less than 1",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 999,
+        "score": 5,
+        "addToFavorites": "true"
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "addToFavorites must be a boolean value",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 999,
+        "score": 5,
+        "comment": {},
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "comment must be shorter than or equal to 500 characters",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 999,
+        "score": 5,
+        "addToFavorites": true,
+        "memberId": 15
+      },
+      "authenticated": true,
+      "status": 400,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON400",
+        "message": "property memberId should not exist",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 909090,
+        "score": 5,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 500,
+      "body": {
+        "isSuccess": false,
+        "code": "COMMON500",
+        "message": "서버 오류가 발생했습니다.",
+        "result": null
+      }
+    },
+    {
+      "check": "rollback after favorite INSERT failure",
+      "before": {
+        "ratings": 0,
+        "favorites": 0
+      },
+      "after": {
+        "ratings": 0,
+        "favorites": 0
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/movie-records",
+      "request": {
+        "movieId": 909090,
+        "score": 5,
+        "addToFavorites": true
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "영화 기록을 저장했습니다.",
+        "result": {
+          "rating": {
+            "ratingId": 19,
+            "movieId": 909090,
+            "score": 5,
+            "comment": null,
+            "createdAt": "2026-11-19T15:40:47.000Z",
+            "updatedAt": "2026-11-19T15:40:47.000Z"
+          },
+          "favorite": {
+            "favoriteId": 20,
+            "movieId": 909090,
+            "createdAt": "2026-11-19T15:40:47.000Z"
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 201,
+      "body": {
+        "isSuccess": true,
+        "code": "COMMON201",
+        "message": "즐겨찾기를 등록했습니다.",
+        "result": {
+          "favoriteId": 21,
+          "movieId": 280,
+          "createdAt": "2026-11-19T15:40:47.000Z"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/favorites",
+      "request": {
+        "movieId": 280
+      },
+      "authenticated": true,
+      "status": 409,
+      "body": {
+        "isSuccess": false,
+        "code": "FAVORITE409_1",
+        "message": "이미 이 영화를 즐겨찾기하셨습니다.",
+        "result": null
+      }
+    }
+  ]
+}
