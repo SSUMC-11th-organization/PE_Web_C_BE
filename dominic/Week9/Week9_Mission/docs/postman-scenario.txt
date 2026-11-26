@@ -1,0 +1,131 @@
+
+> umc-week9-movie-api@1.0.0 test:scenario
+> npx --yes newman@6.2.3 run postman/week9.postman_collection.json --bail
+
+newman
+
+UMC Week 9 즐겨찾기와 트랜잭션
+
+→ 회원 A 가입
+  POST http://127.0.0.1:3009/members [201 Created, 433B, 70ms]
+  ✓  HTTP 201
+  ✓  code COMMON201
+
+→ 회원 A 로그인
+  POST http://127.0.0.1:3009/auth/login [200 OK, 586B, 54ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+
+→ 회원 B 가입
+  POST http://127.0.0.1:3009/members [201 Created, 433B, 57ms]
+  ✓  HTTP 201
+  ✓  code COMMON201
+
+→ 회원 B 로그인
+  POST http://127.0.0.1:3009/auth/login [200 OK, 586B, 55ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+
+→ 토큰 누락
+  POST http://127.0.0.1:3009/favorites [401 Unauthorized, 364B, 1ms]
+  ✓  HTTP 401
+  ✓  code AUTH401_2
+
+→ 빈 즐겨찾기 목록
+  GET http://127.0.0.1:3009/favorites [200 OK, 354B, 2ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  empty
+
+→ 즐겨찾기 등록
+  POST http://127.0.0.1:3009/favorites [201 Created, 420B, 6ms]
+  ✓  HTTP 201
+  ✓  code COMMON201
+  ✓  movie
+
+→ 중복 즐겨찾기
+  POST http://127.0.0.1:3009/favorites [409 Conflict, 374B, 4ms]
+  ✓  HTTP 409
+  ✓  code FAVORITE409_1
+
+→ 목록 조회
+  GET http://127.0.0.1:3009/favorites [200 OK, 424B, 3ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  one favorite
+
+→ 여부 true
+  GET http://127.0.0.1:3009/favorites/550 [200 OK, 371B, 2ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  true
+
+→ 다른 회원 목록
+  GET http://127.0.0.1:3009/favorites [200 OK, 354B, 1ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  isolated
+
+→ 다른 회원 해제 거절
+  DELETE http://127.0.0.1:3009/favorites/550 [404 Not Found, 373B, 2ms]
+  ✓  HTTP 404
+  ✓  code FAVORITE404_1
+
+→ 즐겨찾기 해제
+  DELETE http://127.0.0.1:3009/favorites/550 [200 OK, 348B, 2ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  null
+
+→ 여부 false
+  GET http://127.0.0.1:3009/favorites/550 [200 OK, 372B, 2ms]
+  ✓  HTTP 200
+  ✓  code COMMON200
+  ✓  false
+
+→ 없는 즐겨찾기 해제
+  DELETE http://127.0.0.1:3009/favorites/550 [404 Not Found, 373B, 1ms]
+  ✓  HTTP 404
+  ✓  code FAVORITE404_1
+
+→ 평점과 즐겨찾기 동시 저장
+  POST http://127.0.0.1:3009/movie-records [201 Created, 612B, 6ms]
+  ✓  HTTP 201
+  ✓  code COMMON201
+  ✓  both saved
+
+→ 평점 중복
+  POST http://127.0.0.1:3009/movie-records [409 Conflict, 373B, 3ms]
+  ✓  HTTP 409
+  ✓  code RATING409_1
+
+→ 즐겨찾기 없이 평점만 저장
+  POST http://127.0.0.1:3009/movie-records [201 Created, 510B, 4ms]
+  ✓  HTTP 201
+  ✓  code COMMON201
+  ✓  favorite null
+
+→ 잘못된 영화 ID
+  POST http://127.0.0.1:3009/favorites [400 Bad Request, 354B, 1ms]
+  ✓  HTTP 400
+  ✓  code COMMON400
+
+┌─────────────────────────┬──────────────────┬──────────────────┐
+│                         │         executed │           failed │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              iterations │                1 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│                requests │               19 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│            test-scripts │               19 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│      prerequest-scripts │               19 │                0 │
+├─────────────────────────┼──────────────────┼──────────────────┤
+│              assertions │               47 │                0 │
+├─────────────────────────┴──────────────────┴──────────────────┤
+│ total run duration: 504ms                                     │
+├───────────────────────────────────────────────────────────────┤
+│ total data received: 3.19kB (approx)                          │
+├───────────────────────────────────────────────────────────────┤
+│ average response time: 14ms [min: 1ms, max: 70ms, s.d.: 23ms] │
+└───────────────────────────────────────────────────────────────┘

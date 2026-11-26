@@ -1,0 +1,185 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><title>Week 9 실제 테스트 실행 증빙</title><style>body{margin:0;background:#f2f5fa;color:#18233c;font:16px/1.6 system-ui}header,section{max-width:1160px;margin:28px auto;padding:28px;background:white;border:1px solid #d7e1ee;border-radius:16px}h1,h2{margin:0 0 10px}p{color:#465575}pre{font:13px/1.5 ui-monospace,monospace;white-space:pre-wrap;overflow-wrap:anywhere;background:#111c31;color:#e7eefb;padding:22px;border-radius:10px}a{margin-right:18px}section{scroll-margin:16px}</style><header><h1>Week 9 · 함께 테스트하고 다듬기</h1><p>아래 내용은 저장된 실행 로그를 그대로 표시합니다. FAIL은 임시 복사본에서 코드를 제거한 의도적인 실패 실험입니다.</p><a href="#tests">단위 4개 · 메모리 DB 통합 14개 통과</a><a href="#favorite-unit">중복 검사 제거: 단위 테스트 실패</a><a href="#favorite-e2e">중복 검사 제거: 통합 테스트 409 → 500</a><a href="#transaction">트랜잭션 제거: 평점 0건 예상 → 1건 잔존</a><a href="#restored">원복 후 통합 테스트 14개 재통과</a></header><section id="tests"><h2>단위 4개 · 메모리 DB 통합 14개 통과</h2><p>실제 실행 로그: docs/test-results.txt</p><pre>
+&gt; umc-week9-movie-api@1.0.0 test:all
+&gt; npm test &amp;&amp; npm run test:e2e
+
+
+&gt; umc-week9-movie-api@1.0.0 test
+&gt; jest --config jest.config.cjs --runInBand
+
+PASS src/members/members.service.spec.ts
+  평점 서비스 단위 테스트 (가짜 Repository)
+    ✓ 같은 영화에 평점을 중복 등록하면 409 / RATING409_1이고 저장하지 않는다 (4 ms)
+    ✓ 남의 평점을 수정하면 403 / RATING403_1이고 기존 평점을 저장하지 않는다 (1 ms)
+
+PASS src/favorites/favorites.service.spec.ts
+  즐겨찾기 서비스 단위 테스트 (가짜 Repository)
+    ✓ 아직 즐겨찾기하지 않은 영화면 1회 저장하고 movieId를 반환한다 (1 ms)
+    ✓ 이미 즐겨찾기한 영화면 409 / FAVORITE409_1이고 저장을 시도하지 않는다 (1 ms)
+
+Test Suites: 2 passed, 2 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        0.766 s, estimated 1 s
+Ran all test suites.
+
+&gt; umc-week9-movie-api@1.0.0 test:e2e
+&gt; jest --config test/jest-e2e.cjs --runInBand
+
+PASS test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✓ 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다 (199 ms)
+    ✓ 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다 (119 ms)
+    ✓ 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다 (119 ms)
+    ✓ 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다 (112 ms)
+    ✓ 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다 (112 ms)
+    ✓ 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다 (113 ms)
+    ✓ 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다 (113 ms)
+    ✓ 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다 (230 ms)
+    ✓ 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다 (114 ms)
+    ✓ 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다 (112 ms)
+    ✓ 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다 (118 ms)
+    ✓ 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다 (110 ms)
+    ✓ 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다 (115 ms)
+    ✓ Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다 (117 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        2.439 s, estimated 3 s
+Ran all test suites.
+</pre></section><section id="favorite-unit"><h2>중복 검사 제거: 단위 테스트 실패</h2><p>실제 실행 로그: docs/mutation-favorite-unit.txt</p><pre>FAIL src/favorites/favorites.service.spec.ts
+  즐겨찾기 서비스 단위 테스트 (가짜 Repository)
+    ✓ 아직 즐겨찾기하지 않은 영화면 1회 저장하고 movieId를 반환한다 (4 ms)
+    ✕ 이미 즐겨찾기한 영화면 409 / FAVORITE409_1이고 저장을 시도하지 않는다 (1 ms)
+
+  ● 즐겨찾기 서비스 단위 테스트 (가짜 Repository) › 이미 즐겨찾기한 영화면 409 / FAVORITE409_1이고 저장을 시도하지 않는다
+
+    expect(received).rejects.toMatchObject()
+
+    Received promise resolved instead of rejected
+    Resolved to value: {"createdAt": 2026-11-26T16:56:54.876Z, "favoriteId": 1, "movieId": 550}
+
+      36 |     favorites.exists.mockResolvedValue(true);
+      37 |     // when / then
+    &gt; 38 |     await expect(service.create('1', 550)).rejects.toMatchObject({ status: 409, response: { code: 'FAVORITE409_1' } });
+         |           ^
+      39 |     expect(favorites.save).not.toHaveBeenCalled();
+      40 |   });
+      41 | });
+
+      at expect (../../../../../../..&lt;project&gt;/node_modules/expect/build/index.js:113:15)
+      at Object.&lt;anonymous&gt; (src/favorites/favorites.service.spec.ts:38:11)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 passed, 2 total
+Snapshots:   0 total
+Time:        0.43 s
+Ran all test suites within paths "src/favorites/favorites.service.spec.ts".
+</pre></section><section id="favorite-e2e"><h2>중복 검사 제거: 통합 테스트 409 → 500</h2><p>실제 실행 로그: docs/mutation-favorite-e2e.txt</p><pre>FAIL test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✕ 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다 (200 ms)
+    ○ skipped 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다
+    ○ skipped 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다
+    ○ skipped 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다
+    ○ skipped 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다
+    ○ skipped 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다
+    ○ skipped 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다
+    ○ skipped 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다
+    ○ skipped 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다
+    ○ skipped 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다
+    ○ skipped 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다
+    ○ skipped 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다
+    ○ skipped 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다
+    ○ skipped Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다
+
+  ● 실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트 › 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다
+
+    expected 409 "Conflict", got 500 "Internal Server Error"
+
+      41 |   it('즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다', async () =&gt; {
+      42 |     await request(app.getHttpServer()).post('/favorites').set(auth()).send({ movieId: 550 }).expect(201);
+    &gt; 43 |     const res = await request(app.getHttpServer()).post('/favorites').set(auth()).send({ movieId: 550 }).expect(409);
+         |                                                                                                          ^
+      44 |     expect(res.body.code).toBe('FAVORITE409_1');
+      45 |     expect(await db.getRepository(Favorite).count()).toBe(1);
+      46 |   });
+
+      at Object.&lt;anonymous&gt; (test/mission.e2e-spec.ts:43:106)
+      ----
+      at Test._assertStatus (../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:309:14)
+      at ../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:365:13
+      at Test._assertFunction (../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:342:13)
+      at Test.assert (../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:195:23)
+      at localAssert (../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:138:14)
+      at ../../../../../../..&lt;project&gt;/node_modules/supertest/lib/test.js:156:7
+      at Test.fn [as callback] (../../../../../../..&lt;project&gt;/node_modules/superagent/src/node/index.js:1199:3)
+      at callback (../../../../../../..&lt;project&gt;/node_modules/superagent/src/node/index.js:1555:18)
+      at IncomingMessage.fn (../../../../../../..&lt;project&gt;/node_modules/superagent/src/node/parsers/json.js:24:7)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        0.88 s
+Ran all test suites with tests matching "즐겨찾기를 중복 등록하면".
+</pre></section><section id="transaction"><h2>트랜잭션 제거: 평점 0건 예상 → 1건 잔존</h2><p>실제 실행 로그: docs/mutation-transaction-e2e.txt</p><pre>FAIL test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✕ 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다 (195 ms)
+    ○ skipped 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다
+    ○ skipped 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다
+    ○ skipped 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다
+    ○ skipped 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다
+    ○ skipped 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다
+    ○ skipped 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다
+    ○ skipped 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다
+    ○ skipped 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다
+    ○ skipped 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다
+    ○ skipped 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다
+    ○ skipped 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다
+    ○ skipped 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다
+    ○ skipped Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다
+
+  ● 실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트 › 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      86 |     // then: HTTP failure alone is insufficient; verify persisted state as well.
+      87 |     expect(res.body.code).toBe('FAVORITE409_1');
+    &gt; 88 |     expect(await db.getRepository(Rating).count()).toBe(before);
+         |                                                    ^
+      89 |     expect(await db.getRepository(Rating).countBy({ member: { memberId }, movieId: '550' })).toBe(0);
+      90 |     expect(await db.getRepository(Favorite).count()).toBe(1);
+      91 |   });
+
+      at Object.&lt;anonymous&gt; (test/mission.e2e-spec.ts:88:52)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        0.881 s
+Ran all test suites with tests matching "기존 즐겨찾기와 충돌하면".
+</pre></section><section id="restored"><h2>원복 후 통합 테스트 14개 재통과</h2><p>실제 실행 로그: docs/mutation-restored-e2e.txt</p><pre>PASS test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✓ 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다 (194 ms)
+    ✓ 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다 (117 ms)
+    ✓ 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다 (114 ms)
+    ✓ 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다 (113 ms)
+    ✓ 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다 (111 ms)
+    ✓ 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다 (113 ms)
+    ✓ 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다 (115 ms)
+    ✓ 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다 (230 ms)
+    ✓ 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다 (115 ms)
+    ✓ 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다 (112 ms)
+    ✓ 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다 (119 ms)
+    ✓ 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다 (112 ms)
+    ✓ 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다 (118 ms)
+    ✓ Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다 (116 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        2.478 s
+Ran all test suites.
+</pre></section></html>

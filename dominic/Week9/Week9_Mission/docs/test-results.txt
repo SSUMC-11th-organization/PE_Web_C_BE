@@ -1,0 +1,49 @@
+
+> umc-week9-movie-api@1.0.0 test:all
+> npm test && npm run test:e2e
+
+
+> umc-week9-movie-api@1.0.0 test
+> jest --config jest.config.cjs --runInBand
+
+PASS src/members/members.service.spec.ts
+  평점 서비스 단위 테스트 (가짜 Repository)
+    ✓ 같은 영화에 평점을 중복 등록하면 409 / RATING409_1이고 저장하지 않는다 (4 ms)
+    ✓ 남의 평점을 수정하면 403 / RATING403_1이고 기존 평점을 저장하지 않는다 (1 ms)
+
+PASS src/favorites/favorites.service.spec.ts
+  즐겨찾기 서비스 단위 테스트 (가짜 Repository)
+    ✓ 아직 즐겨찾기하지 않은 영화면 1회 저장하고 movieId를 반환한다 (1 ms)
+    ✓ 이미 즐겨찾기한 영화면 409 / FAVORITE409_1이고 저장을 시도하지 않는다 (1 ms)
+
+Test Suites: 2 passed, 2 total
+Tests:       4 passed, 4 total
+Snapshots:   0 total
+Time:        0.766 s, estimated 1 s
+Ran all test suites.
+
+> umc-week9-movie-api@1.0.0 test:e2e
+> jest --config test/jest-e2e.cjs --runInBand
+
+PASS test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✓ 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다 (199 ms)
+    ✓ 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다 (119 ms)
+    ✓ 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다 (119 ms)
+    ✓ 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다 (112 ms)
+    ✓ 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다 (112 ms)
+    ✓ 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다 (113 ms)
+    ✓ 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다 (113 ms)
+    ✓ 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다 (230 ms)
+    ✓ 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다 (114 ms)
+    ✓ 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다 (112 ms)
+    ✓ 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다 (118 ms)
+    ✓ 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다 (110 ms)
+    ✓ 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다 (115 ms)
+    ✓ Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다 (117 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       14 passed, 14 total
+Snapshots:   0 total
+Time:        2.439 s, estimated 3 s
+Ran all test suites.
