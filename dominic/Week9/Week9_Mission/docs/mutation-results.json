@@ -1,0 +1,44 @@
+[
+  {
+    "label": "mutation-baseline-unit",
+    "expected": "pass",
+    "exitCode": 0,
+    "verified": true
+  },
+  {
+    "label": "mutation-baseline-e2e",
+    "expected": "pass",
+    "exitCode": 0,
+    "verified": true
+  },
+  {
+    "label": "mutation-favorite-unit",
+    "expected": "fail",
+    "exitCode": 1,
+    "verified": true
+  },
+  {
+    "label": "mutation-favorite-e2e",
+    "expected": "fail",
+    "exitCode": 1,
+    "verified": true
+  },
+  {
+    "label": "mutation-transaction-e2e",
+    "expected": "fail",
+    "exitCode": 1,
+    "verified": true
+  },
+  {
+    "label": "mutation-restored-unit",
+    "expected": "pass",
+    "exitCode": 0,
+    "verified": true
+  },
+  {
+    "label": "mutation-restored-e2e",
+    "expected": "pass",
+    "exitCode": 0,
+    "verified": true
+  }
+]

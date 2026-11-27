@@ -1,0 +1,11 @@
+
+> umc-week9-movie-api@1.0.0 test:mutations
+> node scripts/check-mutations.cjs
+
+mutation-baseline-unit: PASS
+mutation-baseline-e2e: PASS
+mutation-favorite-unit: expected failure detected
+mutation-favorite-e2e: expected failure detected
+mutation-transaction-e2e: expected failure detected
+mutation-restored-unit: PASS
+mutation-restored-e2e: PASS

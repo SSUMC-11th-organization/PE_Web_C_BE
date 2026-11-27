@@ -1,0 +1,39 @@
+FAIL test/mission.e2e-spec.ts
+  실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트
+    ✕ 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다 (195 ms)
+    ○ skipped 토큰 없이 즐겨찾기를 등록하면 401 / AUTH401_2이고 DB가 비어 있다
+    ○ skipped 토큰으로 즐겨찾기를 등록하면 201 / COMMON201이고 movieId와 저장 결과가 일치한다
+    ○ skipped 즐겨찾기를 중복 등록하면 409 / FAVORITE409_1이고 한 건만 남는다
+    ○ skipped 즐겨찾기하지 않은 영화도 200 / COMMON200과 isFavorite false를 반환한다
+    ○ skipped 토큰 없이 평점을 등록하면 401 / AUTH401_2이고 평점이 남지 않는다
+    ○ skipped 토큰으로 평점을 등록하면 201 / COMMON201과 ratingId를 반환하고 본인 평점이 저장된다
+    ○ skipped 같은 영화 평점을 다시 등록하면 409 / RATING409_1이고 한 건만 남는다
+    ○ skipped 다른 회원이 평점을 수정하면 403 / RATING403_1이고 점수가 유지된다
+    ○ skipped 영화 기록 성공 시 평점·즐겨찾기를 함께 저장하고 false일 때 평점만 추가한다
+    ○ skipped 본인 평점 수정·공개 조회·삭제가 문서의 응답 형태와 일치한다
+    ○ skipped 위조 토큰은 401 / AUTH401_3이고 잘못된 점수·회원 ID 주입은 400 / COMMON400이다
+    ○ skipped 내 정보·즐겨찾기 목록·해제 API는 본인 정보를 반환하고 정상적으로 수정·삭제한다
+    ○ skipped Swagger의 모든 API에 설명·인증 여부·상태별 code 예제가 있고 요청 DTO가 문서화된다
+
+  ● 실제 HTTP·JWT·검증·서비스·메모리 DB 통합 테스트 › 기존 즐겨찾기와 충돌하면 409 / FAVORITE409_1이고 먼저 INSERT한 평점도 롤백한다
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 1
+
+      86 |     // then: HTTP failure alone is insufficient; verify persisted state as well.
+      87 |     expect(res.body.code).toBe('FAVORITE409_1');
+    > 88 |     expect(await db.getRepository(Rating).count()).toBe(before);
+         |                                                    ^
+      89 |     expect(await db.getRepository(Rating).countBy({ member: { memberId }, movieId: '550' })).toBe(0);
+      90 |     expect(await db.getRepository(Favorite).count()).toBe(1);
+      91 |   });
+
+      at Object.<anonymous> (test/mission.e2e-spec.ts:88:52)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 13 skipped, 14 total
+Snapshots:   0 total
+Time:        0.881 s
+Ran all test suites with tests matching "기존 즐겨찾기와 충돌하면".
